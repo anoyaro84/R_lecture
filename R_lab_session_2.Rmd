@@ -1,0 +1,113 @@
+---
+title: "High dimensional data analysis"
+output:
+  html_document:
+    df_print: paged
+---
+
+```{r}
+library(ggplot2)
+library(heatmaply)
+library(Rtsne)
+```
+
+```{r}
+data = read.csv('geneExpression_GDSC.csv', row.names = "X")
+data
+
+summary(data$GeneralType)
+summary(data$Type)
+```
+
+## Visualize your data with ggplot
+
+You can find a cheat sheet ;).
+https://rstudio.com/resources/cheatsheets/
+
+Let's create a bar chat showing the number of cell lines per tissue type.
+
+```{r, fig.width=8, fig.height=8}
+
+ggplot(data, aes(x=GeneralType, fill=GeneralType)) + geom_bar() +
+  theme(axis.text.x = element_text(angle=90, hjust=1,vjust=1))
+
+# what happens if you remove theme?
+
+```
+
+Let's try another plot that takes two variables.
+
+```{r, fig.width=8, fig.height=8}
+
+ggplot(data, aes(x=GeneralType, y=JUN, fill=GeneralType)) + geom_boxplot() + #geom_point() +
+  theme(axis.text.x = element_text(angle=90, hjust=1,vjust=1))
+
+# you can also try other gene?
+
+```
+
+## Clustering analysis
+
+```{r}
+set.seed(1000) # to make sampling reproducible
+
+filter_cell <- data$GeneralType %in% c('breast', 'lung')
+filter_gene <- c('Type', 'GeneralType', sample(colnames(data),50))
+heatmaply(data[filter_cell, filter_gene], column_text_angle = 90,
+          hclust_method = "average") %>% layout(width=500, height=500)
+```
+
+
+## dimensionality reduction (PCA)
+
+```{r, fig.width=7, fig.height=7}
+
+filter_cell <- data$GeneralType %in% c('breast', 'lung', 'pancreas')
+PCA = prcomp(data[filter_cell, 3:ncol(data)]) # selecting all numeric columns
+
+barplot(PCA$sdev[1:10]^2, las=2) # amount of variance captured by first 10 components
+
+
+PCA$x[1:10,1:5]
+```
+
+```{r, fig.width=7, fig.height=7}
+df <- as.data.frame(PCA$x)
+df$Type = data$GeneralType[filter_cell]
+
+ggplot(df, aes(x=PC1, y=PC2, col=Type)) + geom_point()
+```
+
+### clustering with the compressed data
+
+```{r }
+heatmaply(df[,c("PC1", "PC2", "Type")], column_text_angle = 90,
+          hclust_method = "average") %>% layout(width=500, height=500)
+```
+
+## Another dimensionality reduction : t-sne
+
+Unlike PCA, t-sne takes local associations than global associations.
+(only the closest neighbors considered)
+- perplexity parameter controls the number of closest neighbor considered.
+
+Also, t-sne is not reproducible while PCA is.
+However, the algorithm gives visually pleasing outcome.
+
+```{r, fig.width=7, fig.height=7}
+filter_cell <- data$GeneralType %in% c('breast', 'lung', 'pancreas')
+tsne = Rtsne(data[filter_cell, 3:ncol(data)], dims=2, perplexity = 30, max_iter=5000
+            ) # selecting all numeric columns
+
+df <- as.data.frame(tsne$Y)
+df$Type = data$GeneralType[filter_cell]
+
+ggplot(df, aes(x=V1, y=V2, col=Type)) + geom_point()
+```
+
+### clustering with the compressed data
+
+```{r }
+heatmaply(df, column_text_angle = 90,
+          hclust_method = "average") %>% layout(width=500, height=500)
+```

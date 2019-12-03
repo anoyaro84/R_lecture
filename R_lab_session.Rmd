@@ -1,0 +1,145 @@
+---
+title: "R_basics"
+output:
+  html_document:
+    df_print: paged
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+## R basics
+
+In this part, we will cover the very basic of R programming.
+Let's try simple arithmetic.
+
+* division `/`
+* multiple `*`
+* addition `+`
+* exponent `^`
+* subtraction `-`
+
+
+```{r}
+5+5
+```
+
+Assignment of variables.
+You can give a value, or an expression as well.
+
+```{r}
+x <- 10 # value assignment
+x <- 5 + 5 # outcome of 5+5 will be stored.
+x # printing the contents of x
+```
+
+
+There can be multiple type of variable.
+
+* Character
+* Numeric
+* Logical
+
+
+```{r}
+a <- 1 > 5
+#a <- 5+5
+#a <- 'asdf'
+
+class(a)
+
+```
+
+
+Also, you can hold a structured data.
+
+* vector - all element should have the same type
+* Matrix  - all element should have the same type
+* data frame - flexible
+* list - flexible
+
+```{r }
+a <- c(1,2,3)
+#a <- c(1,2,'3')
+#a <- matrix(c(1,2,3,4), ncol = 2, nrow=2)
+
+a
+class(a)
+```
+
+
+```{r }
+a <- data.frame(age = c(10,20,30), name = c("Tom", "Paul", "Peter"))
+#a <- list(a=c(1,2,3), b=c('1','2','3'), c=c())
+  
+a
+class(a)
+```
+
+In programming general, function is a key element to make your script reproducible.
+A function is defined by a set of script, input arguments, and output argument.
+
+```{r }
+
+# sum is the function name and a, b are the arguments.
+sum <- function(a, b) { # the part surrounded by {} is the body
+  return (a+b) # the function simply return a+b
+}
+
+sum(4,5)
+
+```
+
+Furthermore, you can reduce the number of lines by using for loop.
+
+![How for loop works](https://cdn.datamentor.io/wp-content/uploads/2017/11/r-for-loop.jpg)
+
+```{r }
+
+for (i in 1:5){
+  print(i)
+}
+
+# is the same as
+print(1)
+print(2)
+print(3)
+print(4)
+print(5)
+
+```
+
+And you can handle conditional statements.
+![Flowchart of if statement](https://cdn.datamentor.io/wp-content/uploads/2017/11/r-if-else-statement.jpg)
+
+
+```{r}
+
+a = 10
+if (a > 5) {
+  a <- a - 5 # when the first condition holds
+} else if (a != 0) {
+  a <- a * 2 # when first condition did not hold, but second holds
+} else { 
+  a <- 0 # when none of the above hold
+}
+
+print(a)
+
+```
+
+
+##  Exercise
+
+Please write a function:
+* takes a number i
+* return the sum of 1,2,..,i.
+* use for loop
+* print error message if i is not a numeric variable (use is.numeric)
+
+```{r }
+
+# please come up with your own solution
+
+```
