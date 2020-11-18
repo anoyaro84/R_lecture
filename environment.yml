@@ -5,3 +5,5 @@ dependencies:
   - r-ggplot2
   - r-heatmaply
   - r-rtsne
+  - r-rmarkdown
+  - r-knitr
