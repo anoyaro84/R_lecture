@@ -5,9 +5,13 @@ output:
     df_print: paged
 ---
 
-This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code.
 
 Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+Some materials (e.g. figures) are obtained from the following sources:
+* [Hands-On Programming with R](https://rstudio-education.github.io/hopr/)
+* [Learn by Example](https://www.learnbyexample.org/)
 
 ## R basics
 
@@ -20,13 +24,15 @@ Let's try simple arithmetic.
 * exponent `^`
 * subtraction `-`
 
+In the chuck below, let's put some arithmetic expression as if it is an calculator.
 
 ```{r}
 5+5
 ```
 
-Assignment of variables.
-You can give a value, or an expression as well.
+Instead of having the outcome prited, one can also store them to varaibles.
+One can choose variable names and assign certain value.
+You can give assign an expression, which will first be evaluated and then the outcome value is assigned.
 
 ```{r}
 x <- 10 # value assignment
@@ -34,12 +40,17 @@ x <- 5 + 5 # outcome of 5+5 will be stored.
 x # printing the contents of x
 ```
 
+In R (and perhaps in programming in general), variables have a certain type.
+The type of variables include:
 
-There can be multiple type of variable.
-
-* Character
 * Numeric
 * Logical
+* Character
+
+Some operations are only allowed among the certain type of variables.
+(For instance, arithmetic operations are only possible with numeric variables).
+
+You can check the type with the function `class`.
 
 
 ```{r}
@@ -52,12 +63,32 @@ class(a)
 ```
 
 
-Also, you can hold a structured data.
+Instead of assigning one value to each variable at a time, you can also create a structured variable where multiple values are assigned to one variable.
+There are several options available, including:
 
 * vector - all element should have the same type
 * Matrix  - all element should have the same type
 * data frame - flexible
 * list - flexible
+
+![Overview of data types](https://rstudio-education.github.io/hopr/images/hopr_0306.png)
+
+The element in the structured variable can be accessed by `[]`.
+For 2-dimensional data, one can specify both row and column indices (e.g., `a[1,5]` to access element in 1st row and 5th column).
+You can also retrieve entire column or row by simply omitting one of the indices (e.g., `a[1,]`).
+
+```{r r}
+
+a <- matrix(1,2,3,4)
+
+print(a)
+print(a[1,])
+print(a[1,2])
+
+```
+
+
+Note that in case mixed type of values are given to vector or matrix, the values are automatically converted (coercion) to make them all equal in type.
 
 ```{r }
 a <- c(1,2,3)
@@ -68,6 +99,12 @@ a
 class(a)
 ```
 
+So how does R coerce data types? If a character string is present in an atomic vector, R will convert everything else in the vector to character strings. If a vector only contains logicals and numbers, R will convert the logicals to numbers; every TRUE becomes a 1, and every FALSE becomes a 0.
+
+![Data conversion](https://rstudio-education.github.io/hopr/images/hopr_0301.png)
+
+
+In case of dataframe and list, you are more flexible in putting mixed data types.
 
 ```{r }
 a <- data.frame(age = c(10,20,30), name = c("Tom", "Paul", "Peter"))
@@ -78,6 +115,8 @@ class(a)
 ```
 
 In programming general, function is a key element to make your script reproducible.
+For instance, so far we used the following functions: `class`, `matrix`, `c`, `data.frame` and `list`.
+
 A function is defined by a set of script, input arguments, and output argument.
 
 ```{r }
@@ -91,27 +130,34 @@ sum(4,5)
 
 ```
 
-Furthermore, you can reduce the number of lines by using for loop.
+In some cases, you want to repeat the same operation over and over.
+To reduce the number of lines, and to make it easier to read, we can use for loop.
 
-![How for loop works](https://cdn.datamentor.io/wp-content/uploads/2017/11/r-for-loop.jpg)
+The chunk of code sorrunded by `for(var in iterable){}` are excuted while `var` iterates over the `iterable`.
+
+![How for loop works](https://www.learnbyexample.org/wp-content/uploads/r/r-for-loop-syntax.png)
 
 ```{r }
 
+a = c(1,2,3,4,5)
+
 for (i in 1:5){
-  print(i)
+  print(a[i])
 }
 
 # is the same as
-print(1)
-print(2)
-print(3)
-print(4)
-print(5)
+print(a[1])
+print(a[2])
+print(a[3])
+print(a[4])
+print(a[5])
 
 ```
 
-And you can handle conditional statements.
-![Flowchart of if statement](https://cdn.datamentor.io/wp-content/uploads/2017/11/r-if-else-statement.jpg)
+
+Furthermore, you may want to perform some operation only when certain condition meets.
+This is when you can use a condiationial statements using `if` and `else`:
+![Flowchart of if statement](https://www.learnbyexample.org/wp-content/uploads/r/r-if-else-if-else-statement-syntax.png)
 
 
 ```{r}
@@ -136,7 +182,7 @@ Please write a function:
 * takes a number i
 * return the sum of 1,2,..,i.
 * use for loop
-* print error message if i is not a numeric variable (use is.numeric)
+* print error message if i is not a numeric variable (use `is.numeric` function)
 
 ```{r }
 
