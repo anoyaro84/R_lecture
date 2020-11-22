@@ -48,13 +48,13 @@ ggplot(data, aes(x=GeneralType, y=JUN, fill=GeneralType)) + geom_boxplot() + #ge
 
 ## Clustering analysis
 
-```{r}
+```{r, fig.width=20, fig.height=10}
 set.seed(1000) # to make sampling reproducible
 
 filter_cell <- data$GeneralType %in% c('breast', 'lung')
 filter_gene <- c('Type', 'GeneralType', sample(colnames(data),50))
 heatmaply(data[filter_cell, filter_gene], column_text_angle = 90,
-          hclust_method = "average") %>% layout(width=500, height=500)
+          hclust_method = "average") %>% layout(width=1000, height=900)
 ```
 
 
