@@ -9,3 +9,4 @@ dependencies:
   - r-rmarkdown
   - r-knitr
   - libstdcxx-ng
+  - libgcc=5.2.0
