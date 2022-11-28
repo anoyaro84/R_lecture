@@ -2,11 +2,9 @@ channels:
   - conda-forge
   - anaconda
 dependencies:
-  - r-base=3.6
+  - r-base=4.2.2
   - r-ggplot2
   - r-heatmaply
   - r-rtsne
   - r-rmarkdown
   - r-knitr
-  - libstdcxx-ng
-  - libgcc=5.2.0
